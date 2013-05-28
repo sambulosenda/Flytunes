@@ -13,34 +13,36 @@ public class FlyTunesStore extends ConsoleProgram {
 
     public void run() {
     	setFont("Times New Roman-28");
-    
-    	while (true) {
-    		int selection = getSelection();
-    		if (selection == QUIT) break;
-    		switch (selection) {
-    			case LIST_SONGS:
-    				listSongs();
-    				break;
-    			case LIST_ALBUMS:
-    				listAlbums();
-    				break;
-    			case ADD_SONG:
-    				addSong();
-    				break;
-    			case ADD_ALBUM:
-    				addAlbum();
-    				break;
-    			case LIST_SONGS_ON_ALBUM:
-    				listSongsOnAlbum();
-    				break;
-       			case UPDATE_SONG_PRICE:
-    				updateSongPrice();
-    				break;
-    			default:
-    				println("Invalid selection");
-    				break;
-    		}
-    	}
+		int selection;
+		
+    	do {
+    		selection = getSelection();
+    		if (selection != QUIT) {
+				switch (selection) {
+					case LIST_SONGS:
+						listSongs();
+						break;
+					case LIST_ALBUMS:
+						listAlbums();
+						break;
+					case ADD_SONG:
+						addSong();
+						break;
+					case ADD_ALBUM:
+						addAlbum();
+						break;
+					case LIST_SONGS_ON_ALBUM:
+						listSongsOnAlbum();
+						break;
+					case UPDATE_SONG_PRICE:
+						updateSongPrice();
+						break;
+					default:
+						println("Invalid selection");
+						break;
+				} // ends switch
+    		} // ends selection not Q
+    	} while (selection != QUIT);
     }
 	
     /** Prompts the user to pick a selection from a menu
@@ -133,14 +135,17 @@ public class FlyTunesStore extends ConsoleProgram {
 			Album album = new Album(name, year);
 			albums.put(name, album);
 			
-			while (true) {
-				Song song = addSong();
-				if (song == null) break;
-				album.addSong(song);
-			}
+			Song song;
+			do {
+				song = addSong();
+				if (song != null) 
+					album.addSong(song);
+			} while (song != null);
 			println("New album added to the store.");
 		}
-	}			
+	}
+
+
  
 	/** Lists all the songs on a single album in the inventory. */
 	private void listSongsOnAlbum() {
